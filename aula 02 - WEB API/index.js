@@ -32,3 +32,34 @@ function mostrarArquivo(arquivo){
     // realizar a leitura dos arquivos. chamamos o leitor e usamos uma função que lê o arquivo passando a variável que recebe o arquivo.
     leitor.readAsText(arquivoInserido);
 }
+
+// criacao da funcionalidade para salvar o arquivo dos dados que o usuário inseriu
+function salvarArquivo(){
+
+    // variavel que cria um link para download
+    let linkTemporario = document.createElement("a")
+
+    // criando o objeto JSON para guardar os dados
+    let dadoSalvar = {
+
+        // o JSON vai receber os dados inseridos nos inputs do HTML
+        "nome": document.getElementById("nome").value,
+        "cidade":document.getElementById("cidade").value,
+        "estado":document.getElementById("estado").value
+    }
+
+    // criar um arquivo com esses dados - BLOB (representação de um arquivo que é um objeto que pode ser baixado. Ele é um objeto que poderá ser baixado)
+    // criando o BLOB
+    // estamos transformando um objeto e transformando em uma String, e depois dizemos que será do tipo texto
+    let arquivoBlob = new Blob([JSON.stringify(dadoSalvar)], {type:"text/plain"})
+
+    // usuario precisa baixar o arquivo
+    // estamos modificando o href do link para que ele aponte para a URL que é o próprio arquivo, permitindo que ele seja salvo
+    linkTemporario.setAttribute("href",URL.createObjectURL(arquivoBlob))
+
+    //setando no atributo download do elemento a, para que o nome do arquivo dele esteja setado
+    linkTemporario.setAttribute("download","dados.json")
+
+    // permitir que o link seja clicavel para que seja realizado a ação do download
+    linkTemporario.click()
+}
